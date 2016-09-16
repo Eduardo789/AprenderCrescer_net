@@ -4,9 +4,11 @@ package br.com.senai.aprendercrescer.controller;
 
 
 
-import dao.UsuarioDao;
+
+import br.com.senai.aprendercrescer.dao.UsuarioDao;
+import br.com.senai.aprendercrescer.model.Usuario;
 import java.util.ArrayList;
-import model.Usuario;
+
 
 
 public class UsuarioController {
