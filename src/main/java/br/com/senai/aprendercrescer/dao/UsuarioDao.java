@@ -33,7 +33,7 @@ public class UsuarioDao {
                     + "FLAGINATIVO FROM USUARIO WHERE IDUSUARIO = " + id);
             while (rs.next()) {
                 usuario = new Usuario();
-                usuario.setIdUsuario(rs.getInt("IDUSUARIO"));
+                usuario.setIdusuario(rs.getInt("IDUSUARIO"));
                 usuario.setLogin(rs.getString("LOGIN"));
                 usuario.setNome(rs.getString("NOMEUSUARIO"));
                 usuario.setSenha(rs.getString("SENHAUSUARIO"));
@@ -57,10 +57,10 @@ public class UsuarioDao {
             while (rs.next()) {
                 id = rs.getInt("IDUSUARIO");
             }
-            usuario.setIdUsuario(id);
+            usuario.setIdusuario(id);
             sql = "INSERT INTO usuario( idusuario, idgrupo, login, "
                     + "senhausuario, nomeusuario, dtalteracao, flaginativo)"
-                    + "VALUES (" + usuario.getIdUsuario()
+                    + "VALUES (" + usuario.getIdusuario()
                     + ", 0, '" + usuario.getLogin()
                     + "' , '" + usuario.getSenha()
                     + "' , '" + usuario.getNome()
@@ -86,7 +86,7 @@ public class UsuarioDao {
                     + "FLAGINATIVO FROM USUARIO ");
             while (rs.next()) {
                 usuario = new Usuario();
-                usuario.setIdUsuario(rs.getInt("IDUSUARIO"));
+                usuario.setIdusuario(rs.getInt("IDUSUARIO"));
                 usuario.setLogin(rs.getString("LOGIN"));
                 usuario.setNome(rs.getString("NOMEUSUARIO"));
                 usuario.setSenha(rs.getString("SENHAUSUARIO"));
