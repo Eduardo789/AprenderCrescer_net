@@ -12,10 +12,7 @@ import javax.swing.JOptionPane;
 
 
 public class GrupoDao {
-    
-    
-    
-    
+   
     Statement st;
     
     public GrupoDao(){
@@ -58,17 +55,16 @@ public class GrupoDao {
                 id = rs.getInt("IDGRUPO");
             }
             grupo.setIdgrupo(id);
-            sql = "INSERT INTO GRUPO ( IDGRUPO, TIPOUSUARIO, DESCRICAOGRUPO"
-                    + "VALUES (" + grupo.getIdgrupo()
-                    + ", 0, '" + grupo.getTipousuario()
+            sql = "INSERT INTO GRUPO ( IDGRUPO, TIPOUSUARIO, DESCRICAOGRUPO)"
+                    + " VALUES (" + grupo.getIdgrupo()
+                    + ",'" + grupo.getTipousuario()
                     + "' , '" + grupo.getDescricaogrupo()
-                    + "' , '" + data.toString()
-                    + "', 'F' )";
+                    + "')";
             System.out.println(sql);
             st.execute(sql);
-            return true;
+            return true;                                                                                                                                                                                              
         } catch (SQLException ex) {
-            System.out.println("Problema ao inserir usuario: " + ex);
+            System.out.println("Problema ao inserir grupo: " + ex);
             JOptionPane.showMessageDialog(null, "Erro:" + ex);
         }
         return false;

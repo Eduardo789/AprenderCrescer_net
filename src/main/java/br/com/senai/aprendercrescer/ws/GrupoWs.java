@@ -2,12 +2,18 @@ package br.com.senai.aprendercrescer.ws;
 
 import br.com.senai.aprendercrescer.controller.GrupoController;
 import br.com.senai.aprendercrescer.model.Grupo;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,32 +39,37 @@ public class GrupoWs {
         return Response.status(500).build();
     }
 
-    @GET
-    @Path("/getgrupos")
-    @Produces("application/json")
-    public Response getAllGrupo() {
+    @POST
+    @Path("/setgrupos")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setGrupo(InputStream dadosServ) {
+        StringBuilder requisicaoFinal = new StringBuilder();
+
         try {
-            GrupoController grupoControler;
-            grupoControler = new GrupoController();
-            ArrayList<Grupo> lista
-                    = grupoControler.getGrupos();
-            JSONObject retorno = new JSONObject();
-            JSONObject jGrupo;
-            for (Grupo grupo : lista) {
-                jGrupo = new JSONObject();
-                jGrupo.put("idgrupo", grupo.getIdgrupo());
-                jGrupo.put("tipousuario", grupo.getTipousuario());
-                jGrupo.put("descricaogrupo", grupo.getDescricaogrupo());
-                retorno.put("grupos" + grupo.getIdgrupo(), jGrupo.toString());
+            BufferedReader in
+                    = new BufferedReader(new InputStreamReader(dadosServ));
+
+            String requisicao = "";
+            while ((requisicao = in.readLine()) != null) {
+                requisicaoFinal.append(requisicao);
 
             }
-            return Response.status(200).entity(retorno.toString()).build();
+            System.out.println(requisicaoFinal.toString());
+
+            JSONObject resposta = new JSONObject(requisicaoFinal.toString());
+            Grupo grupo = new Grupo();
+            grupo.setIdgrupo(resposta.getInt("idgrupo"));
+            grupo.setTipousuario(resposta.getString("tipousuario"));
+            grupo.setDescricaogrupo(resposta.getString("descricaogrupo"));
+
+            new GrupoController().insereGrupo(grupo);
+ 
+            Response.status(200).entity(
+                    requisicaoFinal.toString()).build();
         } catch (Exception ex) {
-
-            System.out.println("Erro:" + ex);
-
-            return Response.status(200).entity(
-                    "{erro:\"" + ex + "\"}").build();
+            return Response.status(501).entity(ex.toString()).build();
         }
+
+        return null;
     }
 }
