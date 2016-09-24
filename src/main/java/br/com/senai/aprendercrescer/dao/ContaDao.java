@@ -76,16 +76,15 @@ public class ContaDao {
         Conta conta;
         ArrayList<Conta> lista = new ArrayList<Conta>();
         try {
-            rs = st.executeQuery("SELECT  IDUSUARIO, IDGRUPO,LOGIN,"
-                    + " SENHAUSUARIO, NOMEUSUARIO,DTALTERACAO,"
-                    + "FLAGINATIVO FROM USUARIO ");
+            rs = st.executeQuery("SELECT  idconta, descricao , tipoconta , valor"
+                    + " FROM CONTA ");
             while (rs.next()) {
                 conta = new Conta();
-                conta.setIdusuario(rs.getInt("IDUSUARIO"));
-                conta.setLogin(rs.getString("LOGIN"));
-                conta.setNome(rs.getString("NOMEUSUARIO"));
-                conta.setSenha(rs.getString("SENHAUSUARIO"));
-                lista.add(usuario);
+                conta.setIdconta(rs.getInt("idconta"));
+                conta.setDescricao(rs.getString("descricao"));
+                conta.setTipoconta(rs.getString("tipoconta"));
+                conta.setValor(rs.getDouble("valor"));
+                lista.add(conta);
             }
         } catch (SQLException ex) {
             System.out.println("Erro de consulta" + ex);
@@ -93,8 +92,8 @@ public class ContaDao {
         return lista;
     }
 
-    public boolean deleteUsuario(int id) {
-        String sql = "DELETE FROM USUARIO WHERE IDUSUARIO = " + id;
+    public boolean deleteConta(int id) {
+        String sql = "DELETE FROM CONTA WHERE IDCONTA = " + id;
         try {
             st.execute(sql);
             return true;
@@ -110,4 +109,3 @@ public class ContaDao {
     
     
     
-}
