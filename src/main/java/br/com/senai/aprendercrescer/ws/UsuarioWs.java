@@ -42,30 +42,44 @@ public class UsuarioWs {
         return Response.status(500).build();
     }
 
-    @GET
+   @GET
     @Path("/getusuarios")
     @Produces("application/json")
-    public Response getAllUsuario() {
+    public Response getAllUsuarios() {
+        // ArrayList<JSONObject> listaJson = new ArrayList<JSONObject>();
+
         try {
-            UsuarioController usuarioControler;
-            usuarioControler = new UsuarioController();
-            ArrayList<Usuario> lista
-                    = usuarioControler.getUsuarios();
-            JSONObject retorno = new JSONObject();
+            UsuarioController ususarioControler;
+            ususarioControler = new UsuarioController();
+            ArrayList<Usuario> lista = ususarioControler.getUsuarios();
+
             JSONObject jUsuario;
+            StringBuilder retorno = new StringBuilder();
+            retorno.append("[");
+            boolean controle = false;
             for (Usuario usuario : lista) {
+                if (controle) {
+                    retorno.append(" , ");
+                }
+
                 jUsuario = new JSONObject();
                 jUsuario.put("idUsuario", usuario.getIdusuario());
+                jUsuario.put("idGrupo", usuario.getIdgrupo());
+                jUsuario.put("login", usuario.getLogin());
+                jUsuario.put("senha", usuario.getSenha());
                 jUsuario.put("nome", usuario.getNome());
-                retorno.put("usuario" + usuario.getIdusuario(), jUsuario.toString());
+                jUsuario.put("flagInativo", usuario.getFlagInativo() + "");
+                retorno.append(jUsuario.toString());
+                controle = true;
             }
+
+            retorno.append("]");
             return Response.status(200).entity(retorno.toString()).build();
         } catch (Exception ex) {
-
             System.out.println("Erro:" + ex);
-
             return Response.status(200).entity(
-                    "{erro:\"" + ex + "\"}").build();
+                    "{erro : \"" + ex + "\"}").build();
+
         }
     }
 
