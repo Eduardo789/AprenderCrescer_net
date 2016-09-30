@@ -50,13 +50,16 @@ public class ContaWS {
                     = contaControler.getConta();
             JSONObject retorno = new JSONObject();
             JSONObject jConta;
+            boolean controle = false;
             for (Conta conta : lista) {
+                
                 jConta = new JSONObject();
                 jConta.put("idconta", conta.getIdconta());
                 jConta.put("descricao", conta.getDescricao());
                 jConta.put("tipoconta", conta.getTipoconta());
                 jConta.put("valor", conta.getValor());
-
+                retorno.append(jConta.toString());
+                controle = true;
             }
             return Response.status(200).entity(retorno.toString()).build();
         } catch (Exception ex) {

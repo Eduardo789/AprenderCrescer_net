@@ -38,6 +38,44 @@ public class GrupoWs {
 
         return Response.status(500).build();
     }
+    
+    @GET
+    @Path("/getgrupos")
+    @Produces("application/json")
+    public Response getAllGrupos() {
+        // ArrayList<JSONObject> listaJson = new ArrayList<JSONObject>();
+
+        try {
+            GrupoController grupoControler;
+            grupoControler = new GrupoController();
+            ArrayList<Grupo> lista = grupoControler.getGrupos();
+
+            JSONObject jGrupo;
+            StringBuilder retorno = new StringBuilder();
+            retorno.append("[");
+            boolean controle = false;
+            for (Grupo grupo : lista) {
+                if (controle) {
+                    retorno.append(" , ");
+                }
+
+                jGrupo = new JSONObject();
+                jGrupo.put("idgrupo", grupo.getIdgrupo());
+                jGrupo.put("tipousuario", grupo.getTipousuario());
+                jGrupo.put("descricaogrupo", grupo.getDescricaogrupo());
+                retorno.append(jGrupo.toString());
+                controle = true;
+            }
+
+            retorno.append("]");
+            return Response.status(200).entity(retorno.toString()).build();
+        } catch (Exception ex) {
+            System.out.println("Erro:" + ex);
+            return Response.status(200).entity(
+                    "{erro : \"" + ex + "\"}").build();
+
+        }
+    }
 
     @POST
     @Path("/setgrupos")

@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="vendor/js/angular.min.js"></script>
+        <script type="text/javaScript" src="js/myApp.js"></script>
+        <script type="text/javaScript" src="js/controller/GrupoController.js"></script>
+        <script type="text/javaScript" src="js/factory/GrupoFactory.js"></script>
+    </head>
+    <body ng-controller="GrupoController" ng-init="buscaGrupos()">>
+        <div>
+            <h1> Lista Grupo </h1>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>IdGrupo</th>
+                            <th>Tipo Usuario</th>
+                            <th>Descrição do Grupo</th>
+                        </tr>    
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in dados">
+                            <td>1{{item.idgrupo}}</td>
+                            <td>{{item.tipousuario}}</td>
+                            <td>{{item.descricaogrupo}}</td>
+                            <td>
+                                <button>Editar</button>
+                                <button>Remover</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>    
+            </div>
+        </div>
+    </body>
+</html>
