@@ -48,11 +48,13 @@ public class ContaWS {
             contaControler = new ContaController();
             ArrayList<Conta> lista
                     = contaControler.getConta();
-            JSONObject retorno = new JSONObject();
+
             JSONObject jConta;
+            StringBuilder retorno = new StringBuilder();
+            retorno.append("[");
             boolean controle = false;
             for (Conta conta : lista) {
-                
+
                 jConta = new JSONObject();
                 jConta.put("idconta", conta.getIdconta());
                 jConta.put("descricao", conta.getDescricao());
@@ -61,6 +63,7 @@ public class ContaWS {
                 retorno.append(jConta.toString());
                 controle = true;
             }
+            retorno.append("]");
             return Response.status(200).entity(retorno.toString()).build();
         } catch (Exception ex) {
 
