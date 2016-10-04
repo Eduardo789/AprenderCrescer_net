@@ -22,7 +22,6 @@ import org.json.JSONObject;
 
 @Path("/usuario")
 public class UsuarioWs {
-    
 
     @GET
     @Path("/getusuario")
@@ -42,7 +41,7 @@ public class UsuarioWs {
         return Response.status(500).build();
     }
 
-   @GET
+    @GET
     @Path("/getusuarios")
     @Produces("application/json")
     public Response getAllUsuarios() {
@@ -83,55 +82,42 @@ public class UsuarioWs {
         }
     }
 
-@POST
-@Path("/setusuario")
-@Consumes(MediaType.APPLICATION_JSON)
-public Response setUsuario(InputStream dadosServ){
-    
-    StringBuilder requisicaoFinal = new StringBuilder();
-            
-    try{
-        BufferedReader in =
-                new BufferedReader(new InputStreamReader(dadosServ));
-        
-        
-        String requisicao = "";
-        while((requisicao = in.readLine()) != null){
-            requisicaoFinal.append(requisicao);
-            
+    @POST
+    @Path("/setusuario")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setUsuario(InputStream dadosServ) {
+
+        StringBuilder requisicaoFinal = new StringBuilder();
+
+        try {
+            BufferedReader in
+                    = new BufferedReader(new InputStreamReader(dadosServ));
+
+            String requisicao = "";
+            while ((requisicao = in.readLine()) != null) {
+                requisicaoFinal.append(requisicao);
+
+            }
+            System.out.println(requisicaoFinal.toString());
+
+            JSONObject resposta = new JSONObject(requisicaoFinal.toString());
+            Usuario usuario = new Usuario();
+            usuario.setLogin(resposta.getString("login"));
+            usuario.setNome(resposta.getString("nome"));
+            usuario.setSenha(resposta.getInt("senha") + "");
+            usuario.setIdgrupo(resposta.getInt("idGrupo"));
+            usuario.setFlagInativo(resposta.getString("flagInativo").toCharArray()[0]);
+            usuario.setDtAlteracao(new Date());
+
+            if (new UsuarioController().insereUsuario(usuario)) {
+                return Response.status(200).entity("{\"result\"" + ":\"Cadastrado\"}").build();
+            } else {
+                return Response.status(501).entity("{\"result\" : \"Erro no Cadastro\"}").build();
+            }
+        } catch (Exception ex) {
+            return Response.status(501).entity(ex.toString()).build();
         }
-        System.out.println(requisicaoFinal.toString());
-        
-        JSONObject resposta = new JSONObject(requisicaoFinal.toString());
-        Usuario usuario = new Usuario();
-        usuario.setLogin(resposta.getString("nome"));
-        usuario.setNome (resposta.getString("nome"));
-        usuario.setSenha(resposta.getInt("senha")+"");
-        usuario.setIdusuario(resposta.getInt("IDUsuario"));
-        usuario.setIdgrupo(resposta.getInt("IDGrupo"));        
-        usuario.setFlagInativo(resposta.getString("FlagInativo").toCharArray()[0]);        
-        usuario.setDtAlteracao(new Date());
-        
-        
-        new UsuarioController().insereUsuario(usuario);
-        
-        
-        Response.status(200).entity(
-        requisicaoFinal.toString()).build();
-    }catch(Exception ex){
-        return Response.status(501).entity(ex.toString()).build();
+
     }
-    
-    return null;
-}
-
-
-
-
-
-
-
-
-
 
 }

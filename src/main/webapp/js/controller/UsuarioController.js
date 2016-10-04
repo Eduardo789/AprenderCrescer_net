@@ -1,4 +1,4 @@
-myApp.controller('UsuarioController', function UsuarioController($scope,$http){
+myApp.controller('UsuarioController', function UsuarioController($scope,$http, UsuarioFactory){
     $scope.editando = false;
     $scope.dados = [{"idUsuario": 1,"idGrupo": 1,
                     "login": "Eduardo",
@@ -25,9 +25,20 @@ myApp.controller('UsuarioController', function UsuarioController($scope,$http){
     
     $scope.callbackCadastroUsuario = function(resposta){
         if(resposta.status != 200){
-            alert("Deu erro");
+            swal("Usuario", "Erro no cadastro do usuario!","error");;
         }else{
-            alert("Ok");
+            //alert("Ok");
+            swal("Usuario", "Usuario Cadastrado com sucesso!","success");
+            $scope.buscaUsuarios();
+            $scope.limpaCampos();
         }
+    }
+    
+    $scope.limpaCampos = function (){
+        $scope.usuario.nome = "";
+        $scope.usuario.login = "";
+        $scope.usuario.flagInativo = "";
+        $scope.usuario.idGrupo = "";
+        $scope.usuario.senha = "";
     }
 })
