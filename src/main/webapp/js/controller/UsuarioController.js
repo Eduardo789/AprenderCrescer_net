@@ -21,14 +21,13 @@ myApp.controller('UsuarioController', function UsuarioController($scope, $http, 
         $scope.usuario = angular.copy(item);
     }
 
-    if (usuario.idUsuario && usuario.idUsuario != 0) {
-        UsuarioFactory.updateUsuario($scope.callbackCadastroUsuario, usuario);
-    } else {
-        UsuarioFactory.setUsuario($scope.callbackCadastroUsuario, usuario);
-    }
 
     $scope.cadastroUsuario = function (usuario) {
-        UsuarioFactory.setUsuario($scope.callbackCadastroUsuario, usuario);
+        if (usuario.idUsuario && usuario.idUsuario != 0) {
+            UsuarioFactory.updateUsuario($scope.callbackCadastroUsuario, usuario);
+        } else {
+            UsuarioFactory.setUsuario($scope.callbackCadastroUsuario, usuario);
+        }
     }
 
     $scope.callbackCadastroUsuario = function (resposta) {
@@ -53,18 +52,16 @@ myApp.controller('UsuarioController', function UsuarioController($scope, $http, 
     }
 
     $scope.limpaCampos = function () {
-        $scope.usuario.idUsuario = "";
-        $scope.usuario.nome = "";
-        $scope.usuario.login = "";
-        $scope.usuario.flagInativo = "";
-        $scope.usuario.idGrupo = "";
-        $scope.usuario.senha = "";
+        var usuario = {idUsuario: "", nome: "", login: "",
+            flagInativo: "", idGrupo: "", senha: ""
+        }
+        $scope.usuario = usuario;
         $scope.editando = false;
     }
 
-    $scope.deleteUsuario = function (id) {
+    $scope.deleteUsuario = function (usuario) {
 
-        UsuarioFactory.deleteUsuario($scope.callbackDeleteUsuario, id);
+        UsuarioFactory.deleteUsuario($scope.callbackDeleteUsuario, usuario);
     }
 
     $scope.callbackDeleteUsuario = function (resposta) {
@@ -73,6 +70,8 @@ myApp.controller('UsuarioController', function UsuarioController($scope, $http, 
 
         } else {
             swal("Usuario", "Usuario deletado com sucesso", "success");
+            $scope.limpaCampos();
+            $scope.buscaUsuarios();
         }
     }
 

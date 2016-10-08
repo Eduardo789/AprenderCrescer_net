@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import static javax.ws.rs.HttpMethod.DELETE;
 import static javax.ws.rs.HttpMethod.POST;
@@ -161,21 +162,32 @@ public class UsuarioWs {
         }
     }
 
-    @GET
-    @Path("/deleteusuario/{idusuario}")
-
-    public Response deleteUsuario(@PathParam("idusuario") int idUsuario) {
-
+    @DELETE
+    @Path("/deleteusuario")
+    @Produces("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteUsuario(InputStream dadosServ) {
+        StringBuilder requisicaoFinal = new StringBuilder();
         try {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(dadosServ));
+            String requisicao = null;
+            while ((requisicao = in.readLine()) != null) {
+                requisicaoFinal.append(requisicao);
+            }
+            System.out.println(requisicaoFinal.toString());
+            JSONObject resposta = new JSONObject(requisicaoFinal.toString());
+            System.out.println("" + resposta.getInt("idUsuario"));
+            int idUsuario = resposta.getInt("idUsuario");
             if (new UsuarioController().deleteUsuario(idUsuario)) {
-                Response.status(200).build();
+                return Response.status(200).entity("{\"result\": \"sucesso\"}").build();
             } else {
-                Response.status(400).build();
+                return Response.status(501).entity("{\"result\": \"error\"}").build();
             }
         } catch (Exception ex) {
-            return Response.status(400).entity(ex.toString()).build();
+            return Response.status(501).entity(ex.toString()).build();
 
         }
-        return Response.status(200).build();
+
     }
 }
