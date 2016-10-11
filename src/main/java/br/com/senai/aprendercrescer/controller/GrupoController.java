@@ -19,15 +19,19 @@ public class GrupoController {
     }
     
     public boolean insereGrupo(Grupo grupo) {
-        return grupoDao.insereGrupo(grupo);
+       grupoDao.gravar(grupo);
+       return true;
     }
 
     public ArrayList<Grupo> getGrupos() {
-        return grupoDao.getGrupos();
+        return grupoDao.getAll();
     }
     
     public boolean deleteGrupo(int id){ 
-        return grupoDao.deleteGrupo(id);
+        Grupo grupo = new Grupo();
+        grupo.setIdgrupo(id);
+        grupoDao.apagar(grupo);
+        return true;
     }
 
 }

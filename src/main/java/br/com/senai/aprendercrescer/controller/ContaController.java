@@ -15,15 +15,18 @@ public class ContaController {
     }
 
     public boolean insereConta(Conta conta) {
-        return contaDao.insereConta(conta);
+        contaDao.gravar(conta);
+        return true;
     }
 
     public ArrayList<Conta> getConta() {
-        return contaDao.getConta();
+        return contaDao.getAll();
     }
 
     public boolean deleteConta(int id) {
-        return contaDao.deleteConta(id);
+        Conta conta = new Conta(id);
+        ContaDao.apagar(conta);
+        return true;
     }
 
 }

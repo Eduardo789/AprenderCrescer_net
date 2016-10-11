@@ -8,6 +8,7 @@ package br.com.senai.aprendercrescer.controller;
 import br.com.senai.aprendercrescer.dao.UsuarioDao;
 import br.com.senai.aprendercrescer.model.Usuario;
 import java.util.ArrayList;
+import static jdk.nashorn.internal.runtime.Debug.id;
 
 
 
@@ -22,15 +23,18 @@ public class UsuarioController {
     }
     
     public boolean insereUsuario(Usuario usuario) {
-        return usuarioDao.insereUsuario(usuario);
+         usuarioDao.gravar(usuario);
+         return true;
     }
 
     public ArrayList<Usuario> getUsuarios() {
-        return usuarioDao.getUsuarios();
+        return usuarioDao.getAll();
     }
     
     public boolean deleteUsuario(int id){ 
-        return usuarioDao.deleteUsuario(id);
+        Usuario us = new Usuario(id);
+        usuarioDao.apagar(us);
+        return true;
     }
 
 }

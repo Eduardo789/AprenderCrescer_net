@@ -109,8 +109,8 @@ public class UsuarioWs {
             usuario.setNome(resposta.getString("nome"));
             usuario.setSenha(resposta.getInt("senha") + "");
             usuario.setIdgrupo(resposta.getInt("idGrupo"));
-            usuario.setFlagInativo(resposta.getString("flagInativo").toCharArray()[0]);
-            usuario.setDtAlteracao(new Date());
+            usuario.setFlagInativo(resposta.getString("flagInativo"));
+            usuario.setDtalteracao(new Date());
 
             if (new UsuarioController().insereUsuario(usuario)) {
                 return Response.status(200).entity("{\"result\"" + ":\"Cadastrado\"}").build();
@@ -149,8 +149,8 @@ public class UsuarioWs {
             usuario.setNome(resposta.getString("nome"));
             usuario.setSenha(resposta.getInt("senha") + "");
             usuario.setIdgrupo(resposta.getInt("idGrupo"));
-            usuario.setFlagInativo(resposta.getString("flagInativo").toCharArray()[0]);
-            usuario.setDtAlteracao(new Date());
+            usuario.setFlagInativo(resposta.getString("flaginativo"));
+            usuario.setDtalteracao(new Date());
 
             if (new UsuarioController().insereUsuario(usuario)) {
                 return Response.status(200).entity("{\"result\"" + ":\"Cadastrado\"}").build();

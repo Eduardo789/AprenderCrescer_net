@@ -59,7 +59,7 @@
                         <h1> Lista Usuario </h1>
                         <div>
 
-                            <table>
+                            <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>IdUsuario</th>
@@ -78,8 +78,8 @@
                                         <td>{{item.nome}}</td>
                                         <td>{{item.ativo}}</td>
                                         <td>
-                                            <button ng-click="editarUsuario(item)">Editar</button>
-                                            <button ng-click="deleteUsuario(item)">Remover</button>
+                                            <button class="btn btn-primary" ng-click="editarUsuario(item)"><i class="glyphicon glyphicon-pencil"></i></button>
+                                            <button class="btn btn-danger" ng-click="deleteUsuario(item)"><i class="glyphicon glyphicon-trash"></i> </button>
                                         </td>
                                     </tr>
                                 </tbody>
